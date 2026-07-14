@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section" style="padding-bottom:20px;">
+  <div class="eyebrow">Assessment Desk</div>
+  <h1 style="font-size:36px;">Enter applicant profile</h1>
+  <p style="max-width:640px;">Fill in the financial and demographic details below. The model
+  returns a prediction instantly — no manual review queue required.</p>
+</section>
+
+<section class="section" style="padding-top:0; padding-bottom:100px;">
+  <div class="form-wrap">
+    <form method="POST" action="{{ url_for('predict_page') }}">
+      <div class="field-grid">
+
+        <div class="field">
+          <label>Gender</label>
+          <select name="gender" required>
+            <option value="M" {{ 'selected' if form.gender=='M' }}>Male</option>
+            <option value="F" {{ 'selected' if form.gender=='F' }}>Female</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Age (years)</label>
+          <input type="number" name="age" min="18" max="90" value="{{ form.age or 32 }}" required>
+        </div>
+
+        <div class="field">
+          <label>Owns a Car</label>
+          <select name="own_car" required>
+            <option value="Y" {{ 'selected' if form.own_car=='Y' }}>Yes</option>
+            <option value="N" {{ 'selected' if form.own_car=='N' }}>No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Owns Real Estate</label>
+          <select name="own_realty" required>
+            <option value="Y" {{ 'selected' if form.own_realty=='Y' }}>Yes</option>
+            <option value="N" {{ 'selected' if form.own_realty=='N' }}>No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Number of Children</label>
+          <input type="number" name="children" min="0" max="10" value="{{ form.children or 0 }}" required>
+        </div>
+
+        <div class="field">
+          <label>Family Members (total)</label>
+          <input type="number" name="fam_members" min="1" max="15" value="{{ form.fam_members or 2 }}" required>
+        </div>
+
+        <div class="field">
+          <label>Annual Income</label>
+          <input type="number" name="income" min="0" step="1000" value="{{ form.income or 220000 }}" required>
+        </div>
+
+        <div class="field">
+          <label>Income Type</label>
+          <select name="income_type" required>
+            {% for opt in income_types %}
+              <option value="{{ opt }}" {{ 'selected' if form.income_type==opt }}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Education Level</label>
+          <select name="education" required>
+            {% for opt in education_types %}
+              <option value="{{ opt }}" {{ 'selected' if form.education==opt }}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Family Status</label>
+          <select name="family_status" required>
+            {% for opt in family_statuses %}
+              <option value="{{ opt }}" {{ 'selected' if form.family_status==opt }}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Housing Type</label>
+          <select name="housing_type" required>
+            {% for opt in housing_types %}
+              <option value="{{ opt }}" {{ 'selected' if form.housing_type==opt }}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Occupation</label>
+          <select name="occupation" required>
+            {% for opt in occupation_types %}
+              <option value="{{ opt }}" {{ 'selected' if form.occupation==opt }}>{{ opt }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Employment Duration (years)</label>
+          <input type="number" name="employment_years" min="0" max="50" step="0.1" value="{{ form.employment_years or 3 }}" required>
+        </div>
+
+        <div class="field">
+          <label>Currently Employed</label>
+          <select name="is_employed" required>
+            <option value="1" {{ 'selected' if form.is_employed=='1' }}>Yes</option>
+            <option value="0" {{ 'selected' if form.is_employed=='0' }}>No (retired / not working)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Has Work Phone</label>
+          <select name="work_phone">
+            <option value="1" {{ 'selected' if form.work_phone=='1' }}>Yes</option>
+            <option value="0" {{ 'selected' if form.work_phone=='0' }}>No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Has Phone</label>
+          <select name="phone">
+            <option value="1" {{ 'selected' if form.phone=='1' }}>Yes</option>
+            <option value="0" {{ 'selected' if form.phone=='0' }}>No</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Has Email</label>
+          <select name="email">
+            <option value="1" {{ 'selected' if form.email=='1' }}>Yes</option>
+            <option value="0" {{ 'selected' if form.email=='0' }}>No</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="form-foot">
+        <span class="hint">Predictions are generated by {{ best_model_name }}, the best-performing model on the held-out test set.</span>
+        <button type="submit" class="btn btn-ink">Run Prediction →</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

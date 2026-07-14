@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="section" style="padding-bottom:20px;">
+  <div class="eyebrow">Model Ledger</div>
+  <h1 style="font-size:36px;">Four algorithms, one decision.</h1>
+  <p style="max-width:640px;">Each classifier was trained on the same 80/20 split and
+  evaluated on accuracy and ROC-AUC — the latter weighted more heavily since approvals
+  and rejections are naturally imbalanced. The strongest performer is promoted to
+  production and used on the Assessment Desk.</p>
+</section>
+
+<section class="section" style="padding-top:0; padding-bottom:90px;">
+  <table class="model-table">
+    <thead>
+      <tr><th>Algorithm</th><th>Accuracy</th><th>ROC-AUC</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for name, m in models.items() %}
+      <tr class="{{ 'best' if name == best_model_name }}">
+        <td>{{ name }}</td>
+        <td>{{ "%.2f"|format(m.accuracy*100) }}%</td>
+        <td>{{ "%.3f"|format(m.roc_auc) }}</td>
+        <td class="best-badge">{{ '★ Selected for deployment' if name == best_model_name else '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:56px;">Pipeline</h2>
+  <div class="grid-4">
+    <div class="card"><span class="tag">01</span><h3>Preprocess</h3><p>Missing values handled, duplicates dropped, payment status converted to a binary target.</p></div>
+    <div class="card"><span class="tag">02</span><h3>Encode &amp; Scale</h3><p>Categorical fields label-encoded, all features standardized with a fitted scaler.</p></div>
+    <div class="card"><span class="tag">03</span><h3>Train &amp; Compare</h3><p>Logistic Regression, Decision Tree, Random Forest, and XGBoost trained side by side.</p></div>
+    <div class="card"><span class="tag">04</span><h3>Deploy</h3><p>Best model serialized with joblib and served through this Flask application.</p></div>
+  </div>
+</section>
+
+{% endblock %}

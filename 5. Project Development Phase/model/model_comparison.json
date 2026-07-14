@@ -1,0 +1,18 @@
+{
+  "Logistic Regression": {
+    "accuracy": 0.7608,
+    "roc_auc": 0.832
+  },
+  "Decision Tree": {
+    "accuracy": 0.7542,
+    "roc_auc": 0.7642
+  },
+  "Random Forest": {
+    "accuracy": 0.8292,
+    "roc_auc": 0.8102
+  },
+  "XGBoost": {
+    "accuracy": 0.7825,
+    "roc_auc": 0.7908
+  }
+}

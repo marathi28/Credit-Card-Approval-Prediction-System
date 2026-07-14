@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Automated Underwriting</div>
+    <h1>Credit card decisions,<br>read like a ledger — not a lottery.</h1>
+    <p class="lede">
+      Banks receive thousands of credit card applications daily. This system trains four
+      classification models on applicant financial and demographic data to predict
+      approval or rejection instantly, the way a real underwriting desk would — minus
+      the backlog.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ url_for('predict_page') }}" class="btn btn-gold">Assess an Application →</a>
+      <a href="{{ url_for('models_page') }}" class="btn btn-outline">View Model Ledger</a>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="num">4</div><div class="label">Classification algorithms trained</div></div>
+      <div class="stat"><div class="num">{{ n_records }}</div><div class="label">Historical applicants in training data</div></div>
+      <div class="stat"><div class="num">{{ best_auc }}</div><div class="label">Best model ROC-AUC</div></div>
+      <div class="stat"><div class="num">{{ best_model_name }}</div><div class="label">Selected production model</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="eyebrow">The Problem</div>
+  <h2>Manual review doesn't scale.</h2>
+  <p style="max-width:720px;">
+    A significant share of applications are rejected for reasons like high existing loan
+    balances, insufficient income, or excessive credit inquiries — but reviewing each one
+    by hand is slow and inconsistent. This project automates the decision by training a
+    predictive model on historical applicant outcomes, then serving real-time predictions
+    through this web interface.
+  </p>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="eyebrow">Applied Scenarios</div>
+  <h2>Where this runs in practice</h2>
+  <div class="grid-2">
+    <div class="card">
+      <span class="tag">Scenario 01</span>
+      <h3>Automated Application Screening</h3>
+      <p>A credit analyst enters an applicant's income type, employment duration, and
+      credit history. The model returns an instant approve/reject signal, letting the
+      analyst prioritize applications that need deeper human review.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Scenario 02</span>
+      <h3>High-Risk Identification &amp; Compliance</h3>
+      <p>A compliance officer batch-screens applicants with past-due loan records. Multi-class
+      payment status codes are engineered into binary risk labels so high-risk applicants
+      are clearly flagged as ineligible.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Scenario 03</span>
+      <h3>Portfolio Risk Review</h3>
+      <p>Risk teams re-run the model against segments of the existing portfolio to catch
+      applicants whose financial profile has drifted into higher-risk territory since
+      approval.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Scenario 04</span>
+      <h3>Customer Self-Service Eligibility Check</h3>
+      <p>A prospective customer enters their own details before submitting a formal
+      application. The system instantly estimates approval likelihood, reducing
+      unnecessary rejections and wasted paperwork.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="eyebrow">Built With</div>
+  <h2>Skills &amp; Stack</h2>
+  <div class="skill-list">
+    {% for s in skills %}
+      <span class="skill-chip">{{ s }}</span>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section" style="padding-top:0; padding-bottom: 90px;">
+  <div class="eyebrow">Data Story</div>
+  <h2>Exploratory analysis</h2>
+  <div class="grid-4">
+    <div class="img-card">
+      <img src="{{ url_for('static', filename='images/target_distribution.png') }}" alt="Target distribution">
+      <div class="cap">Approved vs. Rejected</div>
+    </div>
+    <div class="img-card">
+      <img src="{{ url_for('static', filename='images/gender_count.png') }}" alt="Gender distribution">
+      <div class="cap">Applicant gender</div>
+    </div>
+    <div class="img-card">
+      <img src="{{ url_for('static', filename='images/income_distribution.png') }}" alt="Income distribution">
+      <div class="cap">Annual income spread</div>
+    </div>
+    <div class="img-card">
+      <img src="{{ url_for('static', filename='images/education_count.png') }}" alt="Education distribution">
+      <div class="cap">Education level</div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
